@@ -1,13 +1,14 @@
 package com.sonal.journalApp.controller;
 
 import com.sonal.journalApp.entity.User;
+import com.sonal.journalApp.repository.UserRepository;
 import com.sonal.journalApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -16,24 +17,29 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public List<User> getAll(){
-        return userService.getAll();
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping
-    public void createUSer(@RequestBody User user){
+    public void createUSer(@RequestBody User user) {
         userService.saveNewUser(user);
     }
 
-    @PutMapping("/{userName}")
-    public ResponseEntity<?> updateUSer(@RequestBody User user, @PathVariable String userName){
+    @PutMapping
+    public ResponseEntity<?> updateUSer(@RequestBody User user){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
         User userInDb = userService.findByUSerName(userName);
-        if(userInDb != null){
             userInDb.setUserName(user.getUserName());
             userInDb.setPassword(user.getPassword());
-            userService.saveEntry(userInDb);
-        }
+            userService.saveNewUser(userInDb);
+        return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteUserById(@RequestBody User user){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        userRepository.deleteByUserName(authentication.getName());
         return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
