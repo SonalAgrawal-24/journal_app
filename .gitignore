@@ -2,8 +2,6 @@ HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.properties
 .mvn/**
-mvnw.cmd
-mvnw
 !**/src/main/**/target/
 !**/src/test/**/target/
 *.log

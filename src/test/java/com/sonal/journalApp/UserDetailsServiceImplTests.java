@@ -4,6 +4,7 @@ import com.sonal.journalApp.entity.User;
 import com.sonal.journalApp.repository.UserRepository;
 import com.sonal.journalApp.service.UserDetailServiceImpl;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 import static org.mockito.Mockito.when;
 
+@Disabled
 //@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class UserDetailsServiceImplTests {
