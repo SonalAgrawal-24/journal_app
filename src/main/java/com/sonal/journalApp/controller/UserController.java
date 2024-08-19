@@ -1,8 +1,10 @@
 package com.sonal.journalApp.controller;
 
+import com.sonal.journalApp.api.Response.WeatherResponse;
 import com.sonal.journalApp.entity.User;
 import com.sonal.journalApp.repository.UserRepository;
 import com.sonal.journalApp.service.UserService;
+import com.sonal.journalApp.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private WeatherService weatherService;
 
     @PostMapping
     public void createUSer(@RequestBody User user) {
@@ -41,5 +46,16 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         userRepository.deleteByUserName(authentication.getName());
         return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> greeting(@RequestBody User user){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        WeatherResponse weatherResponse = weatherService.getWeather("Mumbai");
+        String greeting = "";
+        if(weatherResponse != null)
+            greeting = " Weather feels like " + weatherResponse.getCurrent().getFeelslike();
+
+        return  new ResponseEntity<>("hi " + authentication.getName() + greeting , HttpStatus.OK);
     }
 }
