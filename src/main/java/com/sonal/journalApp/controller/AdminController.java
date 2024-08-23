@@ -1,10 +1,12 @@
 package com.sonal.journalApp.controller;
 
+import com.sonal.journalApp.cache.AppCache;
 import com.sonal.journalApp.entity.User;
 import com.sonal.journalApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +20,9 @@ public class AdminController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    AppCache appCache;
+
     @RequestMapping("/all-users")
     public ResponseEntity<?> getAllUser(){
         List<User> all = userService.getAll();
@@ -30,5 +35,10 @@ public class AdminController {
     @RequestMapping("/create-admin-user")
     public void createUSer(@RequestBody User user){
         userService.saveAdmin(user);
+    }
+
+    @GetMapping("clear-app-cache")
+    public void clearAppCache(){
+        appCache.init();
     }
 }
