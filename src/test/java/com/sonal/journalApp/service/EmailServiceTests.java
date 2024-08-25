@@ -14,6 +14,6 @@ public class EmailServiceTests {
     void testSendMail(){
         emailService.sendMail("agrawalsonal0624@gmail.com",
                 "Testing Java Mail Sender",
-                "Hi, testgin without authentication?");
+                "Hi, ap kaise ho?");
     }
 }

@@ -29,7 +29,6 @@ public class UserRepositoryImpl {
         query.addCriteria(Criteria.where("email").regex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-z|a-z]{2,6}$"));
         query.addCriteria(Criteria.where("sentimentAnalysis").is(true));
         query.addCriteria(Criteria.where("roles").in("USER", "ADMIN")); //to play around multiple options of a variable, since roles is an array
-        List<User> users = mongoTemplate.find(query, User.class);
-        return users;
+        return mongoTemplate.find(query, User.class);
     }
 }
