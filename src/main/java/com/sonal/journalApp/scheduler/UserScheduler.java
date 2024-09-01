@@ -30,7 +30,7 @@ public class UserScheduler {
     @Autowired
     private SentimentAnalysisService sentimentAnalysisService;
 
-    @Scheduled(cron = "0 0 0 ? * SUN *")
+    @Scheduled(cron = "0 0 9 * * SUN")
     public void fetchUsersAndSendSaMail(){
         List<User> usersForSA = userRepository.getUsersforSA();
         for(User user : usersForSA){
